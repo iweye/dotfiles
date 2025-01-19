@@ -1,0 +1,24 @@
+GRUB_DEFAULT="saved"
+GRUB_TIMEOUT="5"
+GRUB_TIMEOUT_STYLE="menu"
+GRUB_DISTRIBUTOR="Arch"
+GRUB_CMDLINE_LINUX_DEFAULT="loglevel=0 quiet"
+GRUB_CMDLINE_LINUX=""
+
+GRUB_PRELOAD_MODULES="part_gpt"
+#GRUB_PRELOAD_MODULES="part_gpt part_msdos"
+
+GRUB_TERMINAL_INPUT="console"
+#GRUB_TERMINAL_OUTPUT="console"
+
+GRUB_GFXMODE="1920x1080,auto"
+GRUB_GFXPAYLOAD_LINUX="keep"
+
+GRUB_DISABLE_RECOVERY="true"
+
+GRUB_DISABLE_SUBMENU="y"
+
+GRUB_DISABLE_OS_PROBER="false"
+
+GRUB_THEME="/usr/share/grub/themes/whitesur/theme.txt"
+GRUB_BACKGROUND="/usr/share/grub/themes/whitesur/background.jpg"

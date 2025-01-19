@@ -1,0 +1,24 @@
+#! /bin/sh
+
+pidof -q sxhkd || sxhkd &
+
+bspc monitor -d 1 2 3 4
+
+bspc config border_width 0
+bspc config window_gap 8
+
+bspc config split_ratio          0.5
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+bspc rule -a Google-chrome desktop='^2'
+bspc rule -a obsidian desktop='^3'
+
+# Key repeat delay
+xset r rate 200 30 &
+
+# Cursor fix
+xsetroot -cursor_name left_ptr &
+
+# Compositor
+pidof -q picom || picom &
