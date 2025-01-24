@@ -20,6 +20,7 @@ if status is-interactive
 
   alias du='du -sh'
   alias cp='cp -r'
+  alias mkdir='mkdir -p'
   alias rm='rm -rf'
   alias cd='z'
 
