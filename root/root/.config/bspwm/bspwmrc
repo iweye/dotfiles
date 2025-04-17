@@ -1,0 +1,44 @@
+#!/bin/sh
+
+bspc monitor -d 1 2 3 4
+bspc config border_width       1
+bspc config window_gap         0
+bspc config split_ratio        0.5
+bspc config borderless_monocle true
+bspc config gapless_monocle    true
+
+bspc rule -a 'Google-chrome' desktop='^2'
+bspc rule -a 'obsidian'      desktop='^3'
+bspc rule -a 'Electron' state=floating rectangle=500x300+433+234
+
+# Cursor theme
+xrdb -merge ~/.Xresources
+# Cursor fix
+xsetroot -cursor_name left_ptr
+# Key repeat delay
+xset r rate 200 30
+
+# Compositor
+pidof -q picom ||picom &
+
+# Suspend if idle
+pidof -q xautolock || xautolock -time 5 -locker 'playerctl status | grep -q Playing || systemctl suspend' &
+# Audio
+systemctl --user restart pulseaudio
+
+# Night color
+# TODO: cmd.. | at
+# current_hour=$(date +%H)
+# if [ "$current_hour" -ge 20 ]; then
+#     /usr/bin/xsct 2500
+# elif [ "$current_hour" -ge 18 ]; then
+#     /usr/bin/xsct 3000
+# elif [ "$current_hour" -ge 16 ]; then
+#     /usr/bin/xsct 3500
+# elif [ "$current_hour" -ge 8 ]; then
+#     /usr/bin/xsct 0
+# elif [ "$current_hour" -ge 5 ]; then
+#     /usr/bin/xsct 25000
+# else
+#     /usr/bin/xsct 2500
+# fi
