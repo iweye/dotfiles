@@ -30,9 +30,6 @@ grub
 intel-ucode
 irqbalance
 iwd
-jackett
-jellyfin-server
-jellyfin-web
 kitty
 linux
 linux-firmware
@@ -44,6 +41,7 @@ noto-fonts-emoji
 noto-fonts-extra
 npm
 obsidian
+ouch
 os-prober
 paru
 picom
