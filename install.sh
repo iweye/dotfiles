@@ -93,7 +93,7 @@ pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.
 echo "[chaotic-aur]" >> /etc/pacman.conf
 echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
 sudo sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 25\nILoveCandy/' /etc/pacman.conf
-pacman -Syu git reflector paru sudo os-prober grub efibootmgr
+pacman -Syu git reflector rsync paru sudo os-prober grub efibootmgr
 
 useradd -m -G wheel,audio,video,optical,storage -s /bin/sh iweye
 passwd iweye
