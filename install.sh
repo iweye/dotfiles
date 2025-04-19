@@ -25,7 +25,8 @@ disk(){
   root_format="${root_format:-n}"
 
   if [[ "$root_format" == "y" || "$root_format" == "Y" ]]; then
-    mkfs.ext4 -L root -m 1 -T default "$root"
+    # For 50GB partition on 1KK files
+    mkfs.ext4 -L ROOT -m 1 -i 50000 "$root"
   fi
 
   read -p "Home partition (default: /dev/sda3): " home
@@ -34,7 +35,8 @@ disk(){
   home_format="${home_format:-n}"
 
   if [[ "$home_format" == "y" || "$home_format" == "Y" ]]; then
-    mkfs.ext4 -L home -m 0 -T largefile "$home"
+    # For 200GB partition on 1KK files
+    mkfs.ext4 -L HOME -m 0 -i 200000 "$home"
   fi
 
   mount "$root" /mnt
