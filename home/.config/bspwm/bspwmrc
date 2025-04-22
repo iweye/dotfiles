@@ -19,7 +19,9 @@ xsetroot -cursor_name left_ptr
 xset r rate 200 30
 
 # Compositor
-pidof -q picom ||picom &
+pidof -q picom || picom &
+# Notifications
+pidof -q dunst || dunst &
 
 # Suspend if idle
 pidof -q xautolock || xautolock -time 5 -locker 'playerctl status | grep -q Playing || systemctl suspend' &
@@ -42,3 +44,6 @@ systemctl --user restart pulseaudio
 # else
 #     /usr/bin/xsct 2500
 # fi
+
+pidof -q kitty || kitty --single-instance &
+pidof -q chrome|| google-chrome-stable &

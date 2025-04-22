@@ -23,23 +23,19 @@ shift + alt + 3
 
 # Sound
 XF86AudioMute
-    pactl set-sink-mute @DEFAULT_SINK@ toggle
+    ~/.config/scripts/volume toggle-mute
 XF86AudioMicMute
-    pactl set-source-mute @DEFAULT_SOURCE@ toggle
+    ~/.config/scripts/volume toggle-mic-mute
 XF86AudioRaiseVolume
-    pactl set-sink-volume @DEFAULT_SINK@ +10%
+    ~/.config/scripts/volume +5%
 XF86AudioLowerVolume
-    pactl set-sink-volume @DEFAULT_SINK@ -10%
-shift + XF86AudioRaiseVolume
-    pactl set-sink-volume @DEFAULT_SINK@ +5%
-shift + XF86AudioLowerVolume
-    pactl set-sink-volume @DEFAULT_SINK@ -5%
+    ~/.config/scripts/volume -5%
 
 # Light
 XF86MonBrightnessDown
-  brightnessctl s 10%- > /dev/null 2>&1
+  ~/.config/scripts/brightness 10%-
 XF86MonBrightnessUp
-  brightnessctl s +10% > /dev/null 2>&1
+  ~/.config/scripts/brightness 10%+
 
 # Monocle
 super + m

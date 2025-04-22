@@ -79,11 +79,24 @@ internet
 disk
 swap
 
-pacstrap /mnt base linux linux-firmware
+pacman-key --init
+pacman-key --populate
+sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 25\nILoveCandy/' /etc/pacman.conf
+reflector --protocol http,https --country Ukraine,Poland,Germany --age 24 --latest 10 --fastest 10 --sort rate --save /etc/pacman.d/mirrorlist
+cp /etc/pacman.d/mirrorlist /mnt/pacman.d/
+pacman -Syu archlinux-keyring
+
+# For signature problem fix
+sed -i 's/^SigLevel    = Required DatabaseOptional/SigLevel = Never/' /etc/pacman.conf
+pacstrap /mnt base
 genfstab -U /mnt >> /mnt/etc/fstab
 
-# Enter chroot
-arch-chroot /mnt <<EOF
+echo """
+#!/bin/bash
+
+echo "Password for root"
+passwd
+
 pacman -Syu
 
 pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
@@ -92,10 +105,13 @@ pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst
 pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 echo "[chaotic-aur]" >> /etc/pacman.conf
 echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
-sudo sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 25\nILoveCandy/' /etc/pacman.conf
-pacman -Syu git reflector rsync paru sudo os-prober grub efibootmgr
+sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 25\nILoveCandy/' /etc/pacman.conf
+pacman -Syu reflector
+cp /etc/pacman.d/mirrorlist /tmp/
+pacman -S git rsync paru sudo os-prober grub efibootmgr
 
 useradd -m -G wheel,audio,video,optical,storage -s /bin/sh iweye
+echo "Password for iweye"
 passwd iweye
 
 cd /tmp/
@@ -106,14 +122,19 @@ rsync -aAX --no-whole-file home/ /home/iweye/
 chown -R iweye:iweye /home/iweye
 
 locale-gen
-timedatectl set-ntp true
+# timedatectl set-ntp true
 hwclock --systohc
 
 mkdir /boot/EFI
-efi=$(findmnt -n -o SOURCE /efi | grep '^/dev/' | head -n1)
+efi=$(findmnt -n -o SOURCE /mnt/efi | grep '^/dev/' | head -n1)
 mount "$efi" /boot/EFI
 grub-install --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
 
-reflector --protocol https --country Ukraine,Poland,Germany --age 24 --latest 10 --fastest 10 --sort rate --save /etc/pacman.d/mirrorlist
-sudo -u iweye paru -S --needed --noconfirm - < packages
-EOF
+cp /tmp/mirrorlist /etc/pacman.d/
+sudo -u iweye paru -Syu --needed --noconfirm - < packages
+""" > /mnt/root/install.sh
+chmod +x /mnt/root/install.sh
+
+# Enter chroot
+arch-chroot /mnt /root/install.sh

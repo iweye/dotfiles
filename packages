@@ -1,8 +1,8 @@
 7zip
-arch-install-scripts
-archivemount
+archivemount-ng
 base
 base-devel
+bash-completion
 bat
 bazarr
 brightnessctl
@@ -12,6 +12,7 @@ chafa
 chaotic-keyring
 chaotic-mirrorlist
 dhcpcd
+dunst
 efibootmgr
 eza
 fakeroot
@@ -29,7 +30,9 @@ grub
 intel-ucode
 irqbalance
 iwd
+jre21-openjdk
 kitty
+libnotify
 linux
 linux-firmware
 man-db
@@ -40,8 +43,8 @@ noto-fonts-emoji
 noto-fonts-extra
 npm
 obsidian
-ouch
 os-prober
+ouch
 paru
 picom
 piper
@@ -64,7 +67,6 @@ unzip
 warpgui-bin
 xautolock
 xclip
-xfsprogs
 xorg-server
 xorg-xinit
 xorg-xsetroot

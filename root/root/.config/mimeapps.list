@@ -86,3 +86,5 @@ application/x-dockerfile=neovim.desktop
 application/x-markdown=neovim.desktop
 application/epub+zip=google-chrome.desktop
 x-scheme-handler/discord-831593107883032657=discord-831593107883032657.desktop
+x-scheme-handler/about=google-chrome.desktop
+x-scheme-handler/unknown=google-chrome.desktop
