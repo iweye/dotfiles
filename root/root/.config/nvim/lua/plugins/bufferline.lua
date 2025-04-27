@@ -6,7 +6,9 @@ return {
   config = function ()
     local opts = { noremap = true, silent = true }
     vim.keymap.set('n', '<A-l>', ':BufferLineCycleNext<CR>', opts)
+    vim.keymap.set('n', '<A-tab>', ':BufferLineCycleNext<CR>', opts)
     vim.keymap.set('n', '<A-h>', ':BufferLineCyclePrev<CR>', opts)
+    vim.keymap.set('n', '<A-S-tab>', ':BufferLineCyclePrev<CR>', opts)
     vim.keymap.set('n', '<A-S-l>', ':BufferLineMoveNext<CR>', opts)
     vim.keymap.set('n', '<A-S-h>', ':BufferLineMovePrev<CR>', opts)
     vim.keymap.set('n', '<A-return>', ':BufferLinePick<CR>', opts)

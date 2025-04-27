@@ -32,6 +32,9 @@ def draw_tab(
 
     # if timer_id is None:
     #     timer_id = add_timer(_redraw_tab_bar, 2.0, True)
+
+    screen.cursor.italic = False
+
     draw_tab_with_powerline(
         draw_data, screen, tab, before, max_title_length, index, is_last, extra_data
     )

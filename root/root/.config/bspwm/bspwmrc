@@ -18,6 +18,8 @@ xsetroot -cursor_name left_ptr
 # Key repeat delay
 xset r rate 200 30
 
+# Keybindings
+pidof -q sxhkd || sxhkd &
 # Compositor
 pidof -q picom || picom &
 # Notifications
@@ -25,8 +27,6 @@ pidof -q dunst || dunst &
 
 # Suspend if idle
 pidof -q xautolock || xautolock -time 5 -locker 'playerctl status | grep -q Playing || systemctl suspend' &
-# Audio
-systemctl --user restart pulseaudio
 
 # Night color
 # TODO: cmd.. | at

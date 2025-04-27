@@ -1,140 +1,92 @@
 #!/bin/bash
 
-internet() {
-  if ! ping -c 1 archlinux.org &>/dev/null; then
-    rfkill unblock all
-    iwctl
-  fi
-}
+clear
 
-disk(){
-  cfdisk
+if ! ping -c 1 archlinux.org &>/dev/null; then
+  clear
+  echo "Connect to the internet"
+  read -r -s -p "Press Enter to continue..."
+  printf "\r\033[K"
+  rfkill unblock all
+  iwctl
+fi
 
-  read -p "EFI partition (default: /dev/sda1): " efi
-  efi="${efi:-/dev/sda1}"
-  read -p "Format it? (default: no) (y/n): " efi_format
-  efi_format="${efi_format:-n}"
+clear
+echo "Partition disk:"
+echo "  1) /dev/sda1 - efi  >= 1Mb" # 64Mb min if have windows
+echo "  2) /dev/sda2 - root >= 10Gb"
+echo "  3) /dev/sda3 - home >= 5Gb"
+echo "  4) /dev/sda4 - swap >= 2Gb"
+read -r -s -p "Press Enter to continue..."
+printf "\r\033[K"
 
-  if [[ "$efi_format" == "y" || "$efi_format" == "Y" ]]; then
-    mkfs.fat -F32 -n EFI "$efi"
-  fi
+cfdisk
 
-  read -p "Root partition (default: /dev/sda2): " root
-  root="${root:-/dev/sda2}"
-  read -p "Format it? (default: no) (y/n): " root_format
-  root_format="${root_format:-n}"
+mkfs.fat -F32 -n EFI /dev/sda1
 
-  if [[ "$root_format" == "y" || "$root_format" == "Y" ]]; then
-    # For 50GB partition on 1KK files
-    mkfs.ext4 -L ROOT -m 1 -i 50000 "$root"
-  fi
+root_inodes=1000000 # For partition on 1KK files
+mkfs.ext4 -L ROOT -m 1 -i $(( $(blockdev --getsize64 /dev/sda2) / $root_inodes )) /dev/sda2
 
-  read -p "Home partition (default: /dev/sda3): " home
-  home="${home:-/dev/sda3}"
-  read -p "Format it? (default: no) (y/n): " home_format
-  home_format="${home_format:-n}"
+home_inodes=1000000 # For partition on 1KK files
+mkfs.ext4 -L HOME -m 0 -i $(( $(blockdev --getsize64 /dev/sda3) / $home_inodes )) /dev/sda3
 
-  if [[ "$home_format" == "y" || "$home_format" == "Y" ]]; then
-    # For 200GB partition on 1KK files
-    mkfs.ext4 -L HOME -m 0 -i 200000 "$home"
-  fi
+mount -o lazytime,noatime,nodiratime /dev/sda2 /mnt
+mkdir /mnt/{efi,home}
+mount /dev/sda1 /mnt/efi
+mount -o lazytime,noatime,nodiratime /dev/sda3 /mnt/home
 
-  mount "$root" /mnt
-  mkdir /mnt/{efi,home}
-  mount "$efi" /mnt/efi
-  mount "$home" /mnt/home
-}
+mkswap /dev/sda4
+swapon /dev/sda4 -p 100
 
-swap() {
-  echo "Choose swap method:"
-  echo "1) Partition"
-  echo "2) File"
-  echo "3) No swap"
-  read -p "Your choice [1/2/3] (default: 1): " swap_choice
-  swap_choice="${swap_choice:-1}"
-
-  case "$swap_choice" in
-    1)
-      read -p "Swap partition (default: /dev/sda4): " swap_part
-      swap_part="${swap_part:-/dev/sda4}"
-      mkswap "$swap_part"
-      swapon "$swap_part"
-      ;;
-    2)
-      fallocate -l 2G /mnt/swapfile
-      chmod 600 /mnt/swapfile
-      mkswap /mnt/swapfile
-      swapon /mnt/swapfile
-      ;;
-    3)
-      echo "No swap will be created."
-      ;;
-    *)
-      echo "Invalid option. No swap will be created."
-      ;;
-  esac
-}
-
-internet
-disk
-swap
-
-pacman-key --init
-pacman-key --populate
 sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 25\nILoveCandy/' /etc/pacman.conf
-reflector --protocol http,https --country Ukraine,Poland,Germany --age 24 --latest 10 --fastest 10 --sort rate --save /etc/pacman.d/mirrorlist
-cp /etc/pacman.d/mirrorlist /mnt/pacman.d/
-pacman -Syu archlinux-keyring
-
-# For signature problem fix
 sed -i 's/^SigLevel    = Required DatabaseOptional/SigLevel = Never/' /etc/pacman.conf
+clear
+echo "Wait for update mirrors..."
+reflector --protocol http,https --country Ukraine,Poland,Germany --age 24 --latest 10 --fastest 10 --sort rate --save /etc/pacman.d/mirrorlist &>/dev/null
+cp /etc/pacman.d/mirrorlist /mnt/pacman.d/
+
+clear
+echo "Wait for install base packages in new system..."
 pacstrap /mnt base
 genfstab -U /mnt >> /mnt/etc/fstab
 
-echo """
-#!/bin/bash
+arch-chroot /mnt sh -c "echo 'root:666' | chpasswd" # Password for root
+arch-chroot /mnt useradd -m -G wheel,audio,video,optical,storage user
+arch-chroot /mnt sh -c "echo 'user:666' | chpasswd" # Password for user
 
-echo "Password for root"
-passwd
+clear
+echo "Wait for the necessary packages to be installed..."
+arch-chroot /mnt pacman -Syu --noconfirm
+arch-chroot /mnt pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+arch-chroot /mnt pacman-key --lsign-key 3056513887B78AEB
+arch-chroot /mnt pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
+arch-chroot /mnt pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+arch-chroot /mnt bash -c "echo '[chaotic-aur]' >> /etc/pacman.conf"
+arch-chroot /mnt bash -c "echo 'Include = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf"
+arch-chroot /mnt sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 25\nILoveCandy/' /etc/pacman.conf
+arch-chroot /mnt pacman -Syu --noconfirm git rsync paru sudo os-prober grub efibootmgr
 
-pacman -Syu
+clear
+echo "Wait for repo's clones..."
+arch-chroot /mnt git clone --depth 1 https://github.com/iweye/dotfiles /tmp/dotfiles
+clear
+echo "Wait for copies configs..."
+arch-chroot /mnt rm -rf /etc/systemd/
+arch-chroot /mnt rsync -aAX --no-whole-file /tmp/dotfiles/root/ /
+arch-chroot /mnt rsync -aAX --no-whole-file /tmp/dotfiles/home/ /home/user/
+arch-chroot /mnt chown -R user:user /home/user
 
-pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
-pacman-key --lsign-key 3056513887B78AEB
-pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
-pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-echo "[chaotic-aur]" >> /etc/pacman.conf
-echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
-sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 25\nILoveCandy/' /etc/pacman.conf
-pacman -Syu reflector
-cp /etc/pacman.d/mirrorlist /tmp/
-pacman -S git rsync paru sudo os-prober grub efibootmgr
+clear
+echo "Wait for generates locales..."
+arch-chroot /mnt locale-gen
 
-useradd -m -G wheel,audio,video,optical,storage -s /bin/sh iweye
-echo "Password for iweye"
-passwd iweye
+clear
+echo "Wait for installs bootloader..."
+arch-chroot /mnt mkdir -p /boot/EFI
+arch-chroot /mnt mount /dev/sda1 /boot/EFI
+arch-chroot /mnt grub-install --bootloader-id=GRUB
+arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
-cd /tmp/
-git clone --depth 1 https://github.com/iweye/dotfiles
-cd dotfiles/
-rsync -aAX --no-whole-file root/ /
-rsync -aAX --no-whole-file home/ /home/iweye/
-chown -R iweye:iweye /home/iweye
-
-locale-gen
-# timedatectl set-ntp true
-hwclock --systohc
-
-mkdir /boot/EFI
-efi=$(findmnt -n -o SOURCE /mnt/efi | grep '^/dev/' | head -n1)
-mount "$efi" /boot/EFI
-grub-install --bootloader-id=GRUB
-grub-mkconfig -o /boot/grub/grub.cfg
-
-cp /tmp/mirrorlist /etc/pacman.d/
-sudo -u iweye paru -Syu --needed --noconfirm - < packages
-""" > /mnt/root/install.sh
-chmod +x /mnt/root/install.sh
-
-# Enter chroot
-arch-chroot /mnt /root/install.sh
+clear
+echo "Wait until all remaining packages are installed..."
+arch-chroot /mnt sh -c "sudo -u user paru -Syu --needed --noconfirm - < packages"
