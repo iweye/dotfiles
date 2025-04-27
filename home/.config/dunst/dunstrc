@@ -65,9 +65,12 @@ highlight = "#e31e1b, #e37371"
 timeout = 0
 
 # Rules
-[fullscreen_delay_everything]
-fullscreen = delay
+# [fullscreen_delay_everything]
+# fullscreen = delay
+#
+# [fullscreen_show_critical]
+# msg_urgency = critical
+# fullscreen = show
 
-[fullscreen_show_critical]
-msg_urgency = critical
+[fullscreen_show_all]
 fullscreen = show
