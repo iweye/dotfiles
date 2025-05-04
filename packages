@@ -11,6 +11,7 @@ btop
 chafa
 chaotic-keyring
 chaotic-mirrorlist
+cloudflare-warp-bin
 dhcpcd
 dunst
 efibootmgr
@@ -33,11 +34,6 @@ irqbalance
 iwd
 jre21-openjdk
 kitty
-lib32-alsa-plugins
-lib32-libglvnd
-lib32-libpulse
-lib32-mesa
-lib32-vulkan-intel
 libnotify
 linux
 linux-firmware
@@ -72,11 +68,6 @@ trash-cli
 ttf-cascadia-code-nerd
 ttf-jetbrains-mono-nerd
 unzip
-vulkan-intel
-warpgui-bin
-wine
-wine-mono
-winetricks
 xautolock
 xclip
 xorg-server
