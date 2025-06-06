@@ -8,6 +8,8 @@ super + space;o
 	obsidian
 super + space;c
 	google-chrome-stable
+super + r
+	rofi -show drun
 
 # close and kill
 super + {_,shift + }BackSpace
@@ -89,3 +91,7 @@ ctrl + alt + Delete
   shutdown -h now
 ctrl + shift + alt + Delete
   reboot
+
+# Screenshot
+Print
+    flameshot gui

@@ -1,5 +1,6 @@
 #!/bin/sh
 
+
 bspc monitor -d 1 2 3 4
 bspc config border_width       1
 bspc config window_gap         0
@@ -7,9 +8,12 @@ bspc config split_ratio        0.5
 bspc config borderless_monocle true
 bspc config gapless_monocle    true
 
-bspc rule -a 'Google-chrome' desktop='^2'
-bspc rule -a 'obsidian'      desktop='^3'
-bspc rule -a 'Electron' state=floating rectangle=500x300+433+234
+# Use for get name:  xprop | grep WM_CLASS | awk -F'"' '{print $4}'
+bspc rule -a 'Google-chrome' desktop='^2'   state=fullscreen
+bspc rule -a 'obsidian'      desktop='^3'   state=fullscreen
+bspc rule -a 'kitty'                        state=fullscreen
+bspc rule -a 'Electron'      state=floating rectangle=500x300+433+234
+bspc rule -a 'Dragon-drop'   sticky=on
 
 # Cursor theme
 xrdb -merge ~/.Xresources
@@ -45,5 +49,6 @@ pidof -q xautolock || xautolock -time 5 -locker 'playerctl status | grep -q Play
 #     /usr/bin/xsct 2500
 # fi
 
-pidof -q kitty || kitty --single-instance &
-pidof -q chrome|| google-chrome-stable &
+pidof -q kitty    || kitty --single-instance &
+pidof -q chrome   || google-chrome-stable    &
+pidof -q electron || obsidian                &
