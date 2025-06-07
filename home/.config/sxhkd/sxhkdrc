@@ -8,6 +8,8 @@ super + space;o
 	obsidian
 super + space;c
 	google-chrome-stable
+super + space;p
+	google-chrome-stable & obsidian
 super + r
 	rofi -show drun
 

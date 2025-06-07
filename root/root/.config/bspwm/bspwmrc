@@ -50,5 +50,5 @@ pidof -q xautolock || xautolock -time 5 -locker 'playerctl status | grep -q Play
 # fi
 
 pidof -q kitty    || kitty --single-instance &
-pidof -q chrome   || google-chrome-stable    &
-pidof -q electron || obsidian                &
+# pidof -q chrome   || google-chrome-stable    &
+# pidof -q electron || obsidian                &
