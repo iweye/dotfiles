@@ -6,6 +6,7 @@ bash-completion
 bat
 bazarr
 blobdrop-git
+blueman
 brightnessctl
 bspwm
 btop
@@ -16,6 +17,7 @@ cloudflare-warp-bin
 dhcpcd
 dunst
 efibootmgr
+exercism
 eza
 fakeroot
 fd
@@ -55,8 +57,10 @@ paru
 picom
 piper
 playerctl
+portproton
 prowlarr-bin
 pulseaudio
+pulseaudio-bluetooth
 qbittorrent-nox
 radarr
 reflector
