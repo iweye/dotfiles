@@ -27,21 +27,23 @@ fish
 fisher
 flameshot
 flaresolverr-bin
+foliate
 fzf
 git
 google-chrome
 grub
 gucharmap
 intel-ucode
-irqbalance
 iwd
 jq
-jre21-openjdk
+jre21-zulu-bin
 kitty
 lazygit
 libnotify
+libva-intel-driver
 linux
 linux-firmware
+lutris
 man-db
 mpv
 neovim
@@ -57,7 +59,6 @@ paru
 picom
 piper
 playerctl
-portproton
 prowlarr-bin
 pulseaudio
 pulseaudio-bluetooth
@@ -68,7 +69,6 @@ ripgrep
 rofi
 rsync
 simple-mtpfs
-sklauncher-bin
 sonarr
 starship
 sudo
@@ -77,6 +77,7 @@ trash-cli
 ttf-cascadia-code-nerd
 ttf-jetbrains-mono-nerd
 unzip
+vulkan-intel
 xautolock
 xclip
 xorg-server
@@ -84,6 +85,6 @@ xorg-xinit
 xorg-xsetroot
 yazi
 yt-dlp
+zathura
 zip
 zoxide
-zram-generator

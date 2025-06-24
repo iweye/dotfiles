@@ -75,12 +75,18 @@ local wait_msg
 local on_key = false
 
 if o.history_dir:find('^/:dir%%mpvconf%%') then
-    history_dir = o.history_dir:gsub('/:dir%%mpvconf%%', mp.find_config_file('.'))
+    history_dir = o.history_dir:gsub('/:dir%%mpvconf%%', mp.find_config_file('.') or '')
 elseif o.history_dir:find('^/:dir%%script%%') then
-    history_dir = o.history_dir:gsub('/:dir%%script%%', mp.find_config_file('scripts'))
+    history_dir = o.history_dir:gsub('/:dir%%script%%', mp.find_config_file('scripts') or '')
 elseif o.history_dir:find('/:var%%(.*)%%') then
     local os_variable = o.history_dir:match('/:var%%(.*)%%')
-    history_dir = o.history_dir:gsub('/:var%%(.*)%%', os.getenv(os_variable))
+    local env_value = os.getenv(os_variable)
+    if env_value then
+        history_dir = o.history_dir:gsub('/:var%%(.*)%%', env_value)
+    else
+        msg.error("Environment variable " .. os_variable .. " not found, using default config directory")
+        history_dir = mp.find_config_file('.') or ''
+    end
 else
     history_dir = mp.command_native({ "expand-path", o.history_dir }) -- Expands both ~ and ~~
 end

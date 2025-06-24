@@ -29,6 +29,9 @@ pidof -q picom || picom &
 # Notifications
 pidof -q dunst || dunst &
 
+pkill xdg-desktop-por
+/usr/lib/xdg-desktop-portal-gtk &
+
 # Suspend if idle
 pidof -q xautolock || xautolock -time 5 -locker 'playerctl status | grep -q Playing || systemctl suspend' &
 
