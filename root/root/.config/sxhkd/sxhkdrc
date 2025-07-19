@@ -1,0 +1,105 @@
+# terminal emulator
+super + Return
+  kitty --single-instance 
+super + shift + Return
+  kitty
+
+super + space;o
+	obsidian
+super + space;b
+	zen-browser
+super + r
+	rofi -show drun
+super + space;v
+	~/.config/scripts/warp-menu/warp-menu.sh
+
+super + space;m
+  java -jar /home/iweye/.minecraft/TLauncher.jar
+
+# close and kill
+super + {_,shift + }BackSpace
+	bspc node -{c,k}
+
+# Language
+shift + alt + 1
+  setxkbmap -layout us
+shift + alt + 2
+  setxkbmap -layout ru
+shift + alt + 3
+  setxkbmap -layout ua
+
+# Sound
+XF86AudioMute
+    ~/.config/scripts/volume toggle-mute
+XF86AudioMicMute
+    ~/.config/scripts/volume toggle-mic-mute
+XF86AudioRaiseVolume
+    ~/.config/scripts/volume +5%
+XF86AudioLowerVolume
+    ~/.config/scripts/volume -5%
+
+# Light
+XF86MonBrightnessDown
+  ~/.config/scripts/brightness 10%-
+XF86MonBrightnessUp
+  ~/.config/scripts/brightness 10%+
+
+# Monocle
+super + m
+	bspc desktop -l next
+
+# Pin
+super + p
+	bspc node -g sticky
+
+# set the window state
+super + {t,shift + t,s,f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus the last node/desktop
+super + {grave,Tab}
+	bspc {node,desktop} -f last
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+# expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+# quit/restart bspwm
+super + alt + r
+	bspc wm -r
+
+super + alt + q
+	killall xautolock
+
+super + alt + w
+  xsct 3000
+
+# off pc
+ctrl + alt + Delete
+  shutdown -h now
+ctrl + shift + alt + Delete
+  reboot
+
+# Screenshot
+Print
+    flameshot gui

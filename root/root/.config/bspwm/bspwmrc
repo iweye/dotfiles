@@ -1,0 +1,55 @@
+#!/bin/sh
+
+feh --randomize --no-fehbg --bg-fill ~/.config/wallpapers/ &
+
+bspc monitor -d 1 2 3 4
+bspc config border_width 0
+bspc config window_gap 8
+bspc config split_ratio 0.5
+bspc config borderless_monocle true
+bspc config gapless_monocle true
+
+# Use for get name: xprop | grep WM_CLASS | awk -F'"' '{print $4}'
+bspc rule -a 'zen' desktop='^2'
+bspc rule -a 'obsidian' desktop='^3'
+
+bspc rule -a 'Open' state=floating center=true rectangle=800x500
+bspc rule -a 'Open Folder' state=floating center=true rectangle=800x500
+bspc rule -a 'Open File' state=floating center=true rectangle=800x500
+bspc rule -a 'Choose File' state=floating center=true rectangle=800x500
+bspc rule -a 'Save File' state=floating center=true rectangle=800x500
+bspc rule -a 'Save As' state=floating center=true rectangle=800x500
+bspc rule -a 'Save' state=floating center=true rectangle=800x500
+bspc rule -a 'Import' state=floating center=true rectangle=800x500
+bspc rule -a 'Export' state=floating center=true rectangle=800x500
+bspc rule -a 'Replace' state=floating center=true rectangle=800x500
+bspc rule -a 'Find' state=floating center=true rectangle=800x500
+bspc rule -a 'Print' state=floating center=true rectangle=800x500
+
+bspc rule -a \*:\* window_type~='(tooltip|utility|popup_menu|dropdown_menu)' border=off
+
+# Cursor theme
+xrdb -merge ~/.Xresources &
+# Cursor fix
+xsetroot -cursor_name left_ptr &
+# Key repeat delay
+xset r rate 200 30 &
+# Suspend if idle
+xset s 300 300 &
+
+xsct 0 &
+
+# Bar
+pidof -q polybar || polybar &
+# Keybindings
+pidof -q sxhkd || sxhkd &
+# Compositor
+pidof -q picom || picom &
+# Notifications
+pidof -q dunst || dunst &
+
+pidof -q xdg-desktop-por || /usr/lib/xdg-desktop-portal-gtk &
+
+pgrep -f "$HOME/.config/scripts/battery-alert/battery-alert.sh" > /dev/null || "$HOME/.config/scripts/battery-alert/battery-alert.sh" &
+
+pgrep -f "$HOME/.config/scripts/eyes-health/eyes-health.sh" > /dev/null || "$HOME/.config/scripts/eyes-health/eyes-health.sh" &

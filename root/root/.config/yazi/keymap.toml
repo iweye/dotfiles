@@ -1,0 +1,54 @@
+[[mgr.prepend_keymap]]
+on   = [ "c", "a" ]
+run = "plugin ouch"
+desc = "Compress with ouch"
+
+
+[[mgr.prepend_keymap]]
+on   = [ "c", "m" ]
+run  = "plugin chmod"
+desc = "Chmod on selected files"
+
+
+[[mgr.prepend_keymap]]
+on   = [ "m", "a" ]
+run  = "plugin archivemount mount"
+desc = "Mount selected archive"
+[[mgr.prepend_keymap]]
+on   = [ "m", "u" ]
+run  = "plugin archivemount unmount"
+desc = "Unmount and save changes to original archive"
+
+
+[[mgr.prepend_keymap]]
+on   = [ ">" ]
+run  = "plugin what-size"
+desc = "Calc size of selection or cwd"
+
+
+[[mgr.prepend_keymap]]
+on   = [ "M", "m" ]
+run  = "plugin simple-mtpfs -- select-then-mount --jump"
+desc = "Select device to mount and jump to its mount point"
+[[mgr.prepend_keymap]]
+on   = [ "M", "r" ]
+run  = "plugin simple-mtpfs -- remount-current-cwd-device"
+desc = "Remount device under cwd"
+[[mgr.prepend_keymap]]
+on   = [ "M", "u" ]
+run  = "plugin simple-mtpfs -- select-then-unmount"
+desc = "Select device then unmount"
+[[mgr.prepend_keymap]]
+on   = [ "g", "m" ]
+run  = "plugin simple-mtpfs -- jump-to-device"
+desc = "Select device then jump to its mount point"
+[[mgr.prepend_keymap]]
+on   = [ "`", "`" ]
+run  = "plugin simple-mtpfs -- jump-back-prev-cwd"
+desc = "Jump back to the position before jumped to device"
+
+
+[[mgr.prepend_keymap]]
+on   = [ "<C-n>" ]
+run  = '''shell -- blobdrop "$@"'''
+desc = "Drag & drop"
