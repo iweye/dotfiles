@@ -1,0 +1,17 @@
+GRUB_DEFAULT=0
+GRUB_TIMEOUT=0
+GRUB_HIDDEN_TIMEOUT=1
+GRUB_TIMEOUT_STYLE=hidden
+#GRUB_TIMEOUT_STYLE=menu
+GRUB_DISTRIBUTOR=Arch
+GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=0 i915.enable_psr=0 i915.enable_fbc=1 i915.semaphores=1 mitigations=off randomize_va_space=0 no_stack_protector smt=on spec_store_bypass_disable=off"
+GRUB_CMDLINE_LINUX=""
+GRUB_PRELOAD_MODULES="part_gpt"
+#GRUB_PRELOAD_MODULES="part_gpt part_msdos"
+GRUB_TERMINAL_INPUT=console
+GRUB_TERMINAL_OUTPUT=console
+GRUB_GFXMODE="1336x768,auto"
+GRUB_GFXPAYLOAD_LINUX=keep
+GRUB_DISABLE_RECOVERY=true
+GRUB_DISABLE_SUBMENU=y
+GRUB_DISABLE_OS_PROBER=false

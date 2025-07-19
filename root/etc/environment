@@ -1,0 +1,3 @@
+# Syntax: simple "KEY=VAL" pairs on separate lines
+
+XDG_CURRENT_DESKTOP=dark
