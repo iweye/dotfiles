@@ -6,11 +6,11 @@ super + shift + Return
 
 super + space;o
 	obsidian
-super + space;b
-	zen-browser
+super + space;c
+	google-chrome-stable
 super + r
 	rofi -show drun
-super + space;v
+super + space;w
 	~/.config/scripts/warp-menu/warp-menu.sh
 
 super + space;m
