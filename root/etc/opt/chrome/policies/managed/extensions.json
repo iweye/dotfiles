@@ -1,0 +1,12 @@
+{
+  "ExtensionManifestV2Availability": 2,
+  "ExtensionInstallForcelist": [
+    "cjpalhdlnbpafiamejdnhcphjbkeiagm;https://clients2.google.com/service/update2/crx",
+    "pkehgijcmpdhfbdbbnkijodmdjhbjlgp;https://clients2.google.com/service/update2/crx",
+    "edibdbjcniadpccecjdfdjjppcpchdlm;https://clients2.google.com/service/update2/crx",
+    "cofdbpoegempjloogbagkncekinflcnj;https://clients2.google.com/service/update2/crx",
+    "ldpochfccmkkmhdbclfhpagapcfdljkj;https://clients2.google.com/service/update2/crx",
+    "omkfmpieigblcllmkgbflkikinpkodlk;https://clients2.google.com/service/update2/crx",
+    "dhdgffkkebhmkfjojejmpbldmpobfkfo;https://clients2.google.com/service/update2/crx"
+  ]
+}
