@@ -91,6 +91,7 @@ vulkan-intel
 xclip
 xorg-server
 xorg-xinit
+xorg-xinput
 xorg-xsetroot
 xsct
 yazi

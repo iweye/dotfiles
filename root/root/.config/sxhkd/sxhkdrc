@@ -7,7 +7,7 @@ super + shift + Return
 super + space;o
 	obsidian
 super + space;c
-	google-chrome-stable
+  firefox
 super + r
 	rofi -show drun
 super + space;w

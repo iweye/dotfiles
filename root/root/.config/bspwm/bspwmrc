@@ -10,7 +10,7 @@ bspc config borderless_monocle true
 bspc config gapless_monocle true
 
 # Use for get name: xprop | grep WM_CLASS | awk -F'"' '{print $4}'
-bspc rule -a 'Google-chrome' desktop='^2'
+bspc rule -a 'firefox' desktop='^2'
 bspc rule -a 'obsidian' desktop='^3'
 
 bspc rule -a 'Open' state=floating center=true rectangle=800x500
