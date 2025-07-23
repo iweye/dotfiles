@@ -48,8 +48,13 @@ pidof -q picom || picom &
 # Notifications
 pidof -q dunst || dunst &
 
+# For files menus in apps correct work's
 pidof -q xdg-desktop-por || /usr/lib/xdg-desktop-portal-gtk &
 
 pgrep -f "$HOME/.config/scripts/battery-alert/battery-alert.sh" > /dev/null || "$HOME/.config/scripts/battery-alert/battery-alert.sh" &
 
+# Every 20 min reminder
 pgrep -f "$HOME/.config/scripts/eyes-health/eyes-health.sh" > /dev/null || "$HOME/.config/scripts/eyes-health/eyes-health.sh" &
+
+# Auto us layout on ctrl
+pgrep -f "$HOME/.config/scripts/firefox-non-us-hotkey-bugfix.sh" > /dev/null || "$HOME/.config/scripts/firefox-non-us-hotkey-bugfix.sh" &
