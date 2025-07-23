@@ -68,12 +68,12 @@ arch-chroot /mnt pacman -Syu --noconfirm git rsync paru sudo os-prober grub efib
 
 clear
 echo "Wait for repo's clones..."
-arch-chroot /mnt git clone --depth 1 https://github.com/iweye/dotfiles-bspwm /tmp/dotfiles-bspwm
+arch-chroot /mnt git clone --depth 1 https://github.com/iweye/dotfiles /tmp/dotfiles
 clear
 echo "Wait for copies configs..."
 arch-chroot /mnt rm -rf /etc/systemd/
-arch-chroot /mnt rsync -aAX --no-whole-file /tmp/dotfiles-bspwm/root/ /
-# arch-chroot /mnt rsync -aAX --no-whole-file /tmp/dotfiles-bspwm/home/ /home/user/
+arch-chroot /mnt rsync -aAX --no-whole-file /tmp/dotfiles/root/ /
+# arch-chroot /mnt rsync -aAX --no-whole-file /tmp/dotfiles/home/ /home/user/
 arch-chroot /mnt chown -R user:user /home/user
 
 clear
