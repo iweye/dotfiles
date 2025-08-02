@@ -1,0 +1,4 @@
+:root[sizemode="fullscreen"] {
+  /*Make visible bookmarks in fullscreen with auto hide*/
+  & #PersonalToolbar { visibility: visible !important; }
+}
