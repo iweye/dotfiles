@@ -35,3 +35,5 @@ require "autocmds"
 vim.schedule(function()
   require "mappings"
 end)
+
+require("cmp").setup({ experimental = { ghost_text = true, }, })
